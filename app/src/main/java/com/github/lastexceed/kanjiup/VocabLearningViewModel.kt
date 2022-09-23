@@ -4,7 +4,6 @@ import androidx.compose.runtime.MutableState
 
 class VocabTestViewModel(
 	private val vocabToTest: List<VocabItem>,
-	private val mode: MutableState<Mode>,
 ) {
 	private val currentVocab: VocabItem
 
@@ -13,9 +12,7 @@ class VocabTestViewModel(
 		currentVocab = vocabToTest.first()
 	}
 
-	fun returnToMenu() {
-		mode.value = Mode.Menu
-	}
+
 }
 
 data class VocabItem(val show: String, val answer: String)
