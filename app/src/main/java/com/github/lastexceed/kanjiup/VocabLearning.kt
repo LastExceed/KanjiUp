@@ -1,7 +1,10 @@
 package com.github.lastexceed.kanjiup
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -9,6 +12,7 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -20,14 +24,41 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun VocabLearning() {
-	ReviewCard()
+	val viewModel = remember {
+		VocabTestViewModel(
+			listOf(
+				VocabItem("犬", "inu"),
+				VocabItem("猫", "neko"),
+				VocabItem("兎", "usagi"),
+				VocabItem("鳥", "tori"),
+				VocabItem("虎", "tora")
+			).iterator()
+		)
+	}
+
+	val vocabItem = viewModel.currentVocab.value
+	println(vocabItem?.answer)
+	if (vocabItem != null) {
+		ReviewCard(
+			onAnswerCorrect = { viewModel.onAnswerCorrect() },
+			onAnswerWrong = { viewModel.onAnswerWrong() },
+			vocabItem
+		)
+	} else {
+		//ResultScreen()
+	}
 }
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun ReviewCard() {
+fun ReviewCard(
+	onAnswerCorrect: () -> Unit,
+	onAnswerWrong: () -> Unit,
+	vocabItem: VocabItem
+) {
 	Column(Modifier.fillMaxSize()) {
-		var buttonWasClicked by remember { mutableStateOf(false) }
+		var buttonWasClicked by rememberSaveable { mutableStateOf(false) }
+
 		Column(
 			Modifier
 				.fillMaxSize()
@@ -35,14 +66,18 @@ fun ReviewCard() {
 				.absolutePadding(top = 200.dp)
 		) {
 			Text(
-				"柴",
+				vocabItem.show,
 				Modifier.fillMaxWidth(),
 				textAlign = TextAlign.Center,
 				fontSize = 200.sp,
 			)
-			AnimatedVisibility(visible = buttonWasClicked, enter = fadeIn()) {
+			AnimatedVisibility(
+				visible = buttonWasClicked,
+				enter = fadeIn(),
+				exit = fadeOut(animationSpec = tween(0))
+			) {
 				Text(
-					"Shiba",
+					vocabItem.answer,
 					Modifier
 						.fillMaxWidth()
 						.alpha(1f),
@@ -69,20 +104,34 @@ fun ReviewCard() {
 				)
 			}
 		} else {
-			JudgmentBar(modifier = modifier)
+			JudgmentBar(
+				onAnswerCorrect = {
+					buttonWasClicked = false
+					onAnswerCorrect()
+				},
+				onAnswerWrong = {
+					buttonWasClicked = false
+					onAnswerWrong()
+				},
+				modifier
+			)
 		}
 	}
 }
 
 @Composable
-fun JudgmentBar(modifier: Modifier) {
+fun JudgmentBar(
+	onAnswerCorrect: () -> Unit,
+	onAnswerWrong: () -> Unit,
+	modifier: Modifier
+) {
 	Row(
 		modifier,
 		horizontalArrangement = Arrangement.SpaceEvenly
 	) {
 		RectangleButton(
 			modifier = Modifier.weight(1.0F),
-			onClick = { /*TODO*/ },
+			onClick = onAnswerCorrect,
 			backgroundColor = Color(0xff93c47d),
 		) {
 			Icon(
@@ -94,7 +143,7 @@ fun JudgmentBar(modifier: Modifier) {
 		}
 		RectangleButton(
 			modifier = Modifier.weight(1.0F),
-			onClick = { /*TODO*/ },
+			onClick = onAnswerWrong,
 			backgroundColor = Color(0xffe06666)
 		) {
 			Icon(
