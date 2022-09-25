@@ -16,8 +16,6 @@ import androidx.navigation.compose.rememberNavController
 fun Navigation() {
 	val navController = rememberNavController()
 
-	navController.currentBackStackEntry
-
 	NavHost(navController = navController, startDestination = "menu") {
 		navigation("menu_page", route = "menu") {
 			composable("menu_page") { Menu(navController) }
