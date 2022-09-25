@@ -20,6 +20,7 @@ fun Navigation() {
 		navigation("menu_page", route = "menu") {
 			composable("menu_page") { Menu(navController) }
 			composable("vocab_learning") { VocabLearning() }
+			composable("settings_page") { SettingsPage() }
 		}
 		//composable("settings") { Settings(navController) }
 	}

@@ -35,13 +35,15 @@ fun Menu(navController: NavController) {
 		//	}
 		//}
 	) { contentPadding ->
-		MenuButtons({ navController.navigate("vocab_learning") }, Modifier.padding(contentPadding))
+		MenuButtons(Modifier.padding(contentPadding)) { destination: String ->
+			navController.navigate(destination)
+		}
 	}
 }
 
 
 @Composable
-fun MenuButtons(onClick: () -> Unit, modifier: Modifier) {
+fun MenuButtons(modifier: Modifier, onClick: (String) -> Unit) {
 	Column(
 		modifier
 			.fillMaxSize()
@@ -49,11 +51,19 @@ fun MenuButtons(onClick: () -> Unit, modifier: Modifier) {
 		verticalArrangement = Arrangement.spacedBy(20.dp)
 	) {
 		RectangleButton(
-			onClick = onClick,
+			onClick = { onClick("vocab_learning") },
 			modifier = Modifier.size(width = 300.dp, height = 50.dp),
 			backgroundColor = MaterialTheme.colors.primary
 		) {
 			Text("Learn 漢字")
+		}
+
+		RectangleButton(
+			onClick = { onClick("settings_page") },
+			modifier = Modifier.size(width = 300.dp, height = 50.dp),
+			backgroundColor = MaterialTheme.colors.primary
+		) {
+			Text("Settings")
 		}
 	}
 }
