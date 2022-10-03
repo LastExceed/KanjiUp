@@ -1,10 +1,8 @@
 package com.github.lastexceed.kanjiup
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -61,13 +60,15 @@ fun ReviewCard(
 				textAlign = TextAlign.Center,
 				fontSize = 200.sp,
 			)
+
 			AnimatedVisibility(
 				visible = buttonWasClicked,
 				enter = fadeIn(),
-				exit = fadeOut(animationSpec = tween(0))
+				exit = ExitTransition.None
 			) {
 				Text(
-					vocabItem.answer,
+					//workaround for solution being visible for 1 frame after evaluation of the previous vocab
+					text = if (!buttonWasClicked) "" else vocabItem.answer,
 					Modifier
 						.fillMaxWidth()
 						.alpha(1f),
@@ -76,6 +77,7 @@ fun ReviewCard(
 					color = MaterialTheme.colors.primary,
 				)
 			}
+			Text("test")
 		}
 
 		val modifier = Modifier
