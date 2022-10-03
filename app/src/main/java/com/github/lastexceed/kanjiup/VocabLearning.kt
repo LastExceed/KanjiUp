@@ -28,11 +28,7 @@ fun VocabLearning() {
 	val vocabItem = viewModel.currentVocab.value
 	println(vocabItem?.answer)
 	if (vocabItem != null) {
-		ReviewCard(
-			onAnswerCorrect = { viewModel.onAnswerCorrect() },
-			onAnswerWrong = { viewModel.onAnswerWrong() },
-			vocabItem
-		)
+		ReviewCard(viewModel, vocabItem)
 	} else {
 		//ResultScreen()
 	}
@@ -41,8 +37,7 @@ fun VocabLearning() {
 //@Preview(showBackground = true)
 @Composable
 fun ReviewCard(
-	onAnswerCorrect: () -> Unit,
-	onAnswerWrong: () -> Unit,
+	viewModel: VocabTestViewModel,
 	vocabItem: VocabItem
 ) {
 	Column(Modifier.fillMaxSize()) {
@@ -99,11 +94,11 @@ fun ReviewCard(
 			JudgmentBar(
 				onAnswerCorrect = {
 					buttonWasClicked = false
-					onAnswerCorrect()
+					viewModel.onAnswerCorrect()
 				},
 				onAnswerWrong = {
 					buttonWasClicked = false
-					onAnswerWrong()
+					viewModel.onAnswerWrong()
 				},
 				modifier
 			)
