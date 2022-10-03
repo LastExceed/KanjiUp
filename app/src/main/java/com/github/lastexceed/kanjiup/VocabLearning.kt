@@ -24,17 +24,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun VocabLearning() {
-	val viewModel = remember {
-		VocabTestViewModel(
-			listOf(
-				VocabItem("犬", "inu"),
-				VocabItem("猫", "neko"),
-				VocabItem("兎", "usagi"),
-				VocabItem("鳥", "tori"),
-				VocabItem("虎", "tora")
-			).iterator()
-		)
-	}
+	val viewModel = remember { VocabTestViewModel() }
 
 	val vocabItem = viewModel.currentVocab.value
 	println(vocabItem?.answer)
