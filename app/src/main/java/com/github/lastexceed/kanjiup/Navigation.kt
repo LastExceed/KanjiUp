@@ -1,7 +1,6 @@
 package com.github.lastexceed.kanjiup
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,7 +19,7 @@ fun GlobalNavHost() {
 			MainMenu { destination -> navController.navigate(destination) }
 		}
 		composable("vocab_learning") { VocabLearning() }
-		composable("settings_page") { SettingsPage() }
+		composable("settings") { Settings() }
 		//composable("settings") { Settings(navController) }
 	}
 }

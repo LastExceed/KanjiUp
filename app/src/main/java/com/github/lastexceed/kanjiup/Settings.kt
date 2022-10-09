@@ -8,7 +8,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 
 @Composable
-fun SettingsPage() {
+fun Settings() {
 	var isChecked by rememberSaveable { mutableStateOf(false) }
 
 	Checkbox(checked = isChecked, onCheckedChange = { isChecked = !isChecked })
