@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MainMenu(onButtonClicked: (String) -> Unit) {
+fun MainMenu(onButtonClicked: (Route) -> Unit) {
 	Column(
 		Modifier
 			.fillMaxSize()
@@ -16,7 +16,7 @@ fun MainMenu(onButtonClicked: (String) -> Unit) {
 		verticalArrangement = Arrangement.spacedBy(20.dp)
 	) {
 		RectangleButton(
-			onClick = { onButtonClicked("vocab_learning") },
+			onClick = { onButtonClicked(Route.VocabLearning) },
 			modifier = Modifier.size(width = 300.dp, height = 50.dp),
 			backgroundColor = MaterialTheme.colors.primary
 		) {
@@ -24,7 +24,7 @@ fun MainMenu(onButtonClicked: (String) -> Unit) {
 		}
 
 		RectangleButton(
-			onClick = { onButtonClicked("settings_page") },
+			onClick = { onButtonClicked(Route.Settings) },
 			modifier = Modifier.size(width = 300.dp, height = 50.dp),
 			backgroundColor = MaterialTheme.colors.primary
 		) {

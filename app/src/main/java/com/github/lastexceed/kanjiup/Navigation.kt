@@ -15,11 +15,17 @@ fun GlobalNavHost() {
 	val navController = rememberNavController()
 
 	NavHost(navController, startDestination = "main_menu") {
-		composable("main_menu") {
-			MainMenu { destination -> navController.navigate(destination) }
+		composable(Route.MainMenu.raw) {
+			MainMenu { destination -> navController.navigate(destination.raw) }
 		}
-		composable("vocab_learning") { VocabLearning() }
-		composable("settings") { Settings() }
+		composable(Route.VocabLearning.raw) { VocabLearning() }
+		composable(Route.Settings.raw) { Settings() }
 		//composable("settings") { Settings(navController) }
 	}
+}
+
+enum class Route(val raw: String) {
+	MainMenu("main_menu"),
+	VocabLearning("vocab_learning"),
+	Settings("settings")
 }
