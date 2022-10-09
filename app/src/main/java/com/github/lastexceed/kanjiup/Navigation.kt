@@ -16,9 +16,9 @@ fun Navigation() {
 	val navController = rememberNavController()
 
 	NavHost(navController = navController, startDestination = "menu") {
-		navigation("menu_page", route = "menu") {
-			composable("menu_page") {
-				Menu { destination -> navController.navigate(destination) }
+		navigation("main_menu", route = "menu") {
+			composable("main_menu") {
+				MainMenu { destination -> navController.navigate(destination) }
 			}
 			composable("vocab_learning") { VocabLearning() }
 			composable("settings_page") { SettingsPage() }

@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Menu(onButtonClicked: (String) -> Unit) {
+fun MainMenu(onButtonClicked: (String) -> Unit) {
 	Column(
 		Modifier
 			.fillMaxSize()
@@ -36,5 +36,5 @@ fun Menu(onButtonClicked: (String) -> Unit) {
 @Preview
 @Composable
 fun MenuButtonsPreview() {
-	Menu(onButtonClicked = { })
+	MainMenu(onButtonClicked = { })
 }
