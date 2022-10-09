@@ -1,9 +1,9 @@
 package com.github.lastexceed.kanjiup
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 
 //sealed class Screen(val route: String, @StringRes val resourceId: Int) {
@@ -12,10 +12,10 @@ import androidx.navigation.compose.rememberNavController
 //}
 
 @Composable
-fun Navigation() {
+fun GlobalNavHost() {
 	val navController = rememberNavController()
 
-	NavHost(navController = navController, startDestination = "main_menu") {
+	NavHost(navController, startDestination = "main_menu") {
 		composable("main_menu") {
 			MainMenu { destination -> navController.navigate(destination) }
 		}
