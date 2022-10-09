@@ -6,10 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.*
 
 @Composable
-fun Menu(navController: NavController) {
+fun Menu(onButtonClicked: (String) -> Unit) {
 	Column(
 		Modifier
 			.fillMaxSize()
@@ -17,7 +16,7 @@ fun Menu(navController: NavController) {
 		verticalArrangement = Arrangement.spacedBy(20.dp)
 	) {
 		RectangleButton(
-			onClick = { navController.navigate("vocab_learning") },
+			onClick = { onButtonClicked("vocab_learning") },
 			modifier = Modifier.size(width = 300.dp, height = 50.dp),
 			backgroundColor = MaterialTheme.colors.primary
 		) {
@@ -25,7 +24,7 @@ fun Menu(navController: NavController) {
 		}
 
 		RectangleButton(
-			onClick = { navController.navigate("settings_page") },
+			onClick = { onButtonClicked("settings_page") },
 			modifier = Modifier.size(width = 300.dp, height = 50.dp),
 			backgroundColor = MaterialTheme.colors.primary
 		) {
@@ -34,8 +33,8 @@ fun Menu(navController: NavController) {
 	}
 }
 
-//@Preview
-//@Composable
-//fun MenuButtonsPreview() {
-//	Menu(onButtonClicked = { })
-//}
+@Preview
+@Composable
+fun MenuButtonsPreview() {
+	Menu(onButtonClicked = { })
+}

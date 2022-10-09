@@ -1,6 +1,5 @@
 package com.github.lastexceed.kanjiup
 
-import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,7 +17,9 @@ fun Navigation() {
 
 	NavHost(navController = navController, startDestination = "menu") {
 		navigation("menu_page", route = "menu") {
-			composable("menu_page") { Menu(navController) }
+			composable("menu_page") {
+				Menu { destination -> navController.navigate(destination) }
+			}
 			composable("vocab_learning") { VocabLearning() }
 			composable("settings_page") { SettingsPage() }
 		}
