@@ -16,13 +16,13 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
-fun VocabLearning() {
-	val viewModel = remember { VocabTestViewModel() }
-
+fun VocabLearning(
+	viewModel: VocabTestViewModel = viewModel()
+) {
 	val vocabItem = viewModel.currentVocab.value
 	println(vocabItem?.answer)
 	if (vocabItem == null) {
@@ -70,7 +70,6 @@ fun ReviewCard(
 					color = MaterialTheme.colors.primary,
 				)
 			}
-			Text("test")
 		}
 
 		val modifier = Modifier
