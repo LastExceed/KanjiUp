@@ -17,8 +17,7 @@ class VocabTestViewModel() : ViewModel() {
 		mutableStateOf(if (vocabToTest.hasNext()) vocabToTest.next() else null)
 
 	private fun goToNextVocab() {
-		val x = if (vocabToTest.hasNext()) vocabToTest.next() else null
-		currentVocab.value = x
+		currentVocab.value = if (vocabToTest.hasNext()) vocabToTest.next() else null
 	}
 
 	fun onAnswerWrong() {

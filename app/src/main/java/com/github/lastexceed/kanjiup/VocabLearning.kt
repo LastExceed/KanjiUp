@@ -17,8 +17,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-
-
 @Composable
 fun VocabLearning(
 	viewModel: VocabTestViewModel = viewModel()
@@ -28,15 +26,20 @@ fun VocabLearning(
 	if (vocabItem == null) {
 		//ResultScreen
 	} else {
-		ReviewCard(viewModel, vocabItem)
+		ReviewCard(
+			vocabItem,
+			viewModel::onAnswerCorrect,
+			viewModel::onAnswerWrong
+		)
 	}
 }
 
 //@Preview(showBackground = true)
 @Composable
 fun ReviewCard(
-	viewModel: VocabTestViewModel,
-	vocabItem: VocabItem
+	vocabItem: VocabItem,
+	onAnswerCorrect: () -> Unit,
+	onAnswerWrong: () -> Unit
 ) {
 	Column(Modifier.fillMaxSize()) {
 		var buttonWasClicked by rememberSaveable { mutableStateOf(false) }
@@ -91,11 +94,11 @@ fun ReviewCard(
 			JudgmentBar(
 				onAnswerCorrect = {
 					buttonWasClicked = false
-					viewModel.onAnswerCorrect()
+					onAnswerCorrect()
 				},
 				onAnswerWrong = {
 					buttonWasClicked = false
-					viewModel.onAnswerWrong()
+					onAnswerWrong()
 				},
 				modifier
 			)
