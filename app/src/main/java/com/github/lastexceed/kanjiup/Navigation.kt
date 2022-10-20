@@ -14,7 +14,7 @@ import androidx.navigation.compose.rememberNavController
 fun GlobalNavHost() {
 	val navController = rememberNavController()
 
-	NavHost(navController, startDestination = "main_menu") {
+	NavHost(navController, startDestination = Route.MainMenu.raw) {
 		composable(Route.MainMenu.raw) {
 			MainMenu { destination -> navController.navigate(destination.raw) }
 		}
