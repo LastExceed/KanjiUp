@@ -2,8 +2,9 @@ package com.github.lastexceed.kanjiup
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 
-class VocabTestViewModel() {
+class VocabTestViewModel() : ViewModel() {
 	private val vocabToTest: Iterator<VocabItem> = listOf(
 		VocabItem("犬", "inu"),
 		VocabItem("猫", "neko"),

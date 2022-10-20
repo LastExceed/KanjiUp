@@ -1,8 +1,6 @@
 package com.github.lastexceed.kanjiup
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.FiniteAnimationSpec
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,21 +14,21 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 @Composable
-fun VocabLearning() {
-	val viewModel = remember { VocabTestViewModel() }
-
+fun VocabLearning(
+	viewModel: VocabTestViewModel = viewModel()
+) {
 	val vocabItem = viewModel.currentVocab.value
 	println(vocabItem?.answer)
-	if (vocabItem != null) {
-		ReviewCard(viewModel, vocabItem)
+	if (vocabItem == null) {
+		//ResultScreen
 	} else {
-		//ResultScreen()
+		ReviewCard(viewModel, vocabItem)
 	}
 }
 
@@ -72,7 +70,6 @@ fun ReviewCard(
 					color = MaterialTheme.colors.primary,
 				)
 			}
-			Text("test")
 		}
 
 		val modifier = Modifier
