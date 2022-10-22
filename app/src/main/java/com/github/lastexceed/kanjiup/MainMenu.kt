@@ -16,7 +16,7 @@ fun MainMenu(onButtonClicked: (Route) -> Unit) {
 		verticalArrangement = Arrangement.spacedBy(20.dp)
 	) {
 		RectangleButton(
-			onClick = { onButtonClicked(Route.VocabLearning) },
+			onClick = { onButtonClicked(Route.VocabLearningRoute) },
 			modifier = Modifier.size(width = 300.dp, height = 50.dp),
 			backgroundColor = MaterialTheme.colors.primary
 		) {

@@ -1,23 +1,20 @@
 package com.github.lastexceed.kanjiup
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 
 class VocabTestViewModel() : ViewModel() {
-	private val vocabToTest: Iterator<VocabItem> = listOf(
-		VocabItem("犬", "inu"),
-		VocabItem("猫", "neko"),
-		VocabItem("兎", "usagi"),
-		VocabItem("鳥", "tori"),
-		VocabItem("虎", "tora")
-	).iterator()
-
+	private var vocabToTest: Iterator<VocabItem>? = null
 	val currentVocab: MutableState<VocabItem?> =
-		mutableStateOf(if (vocabToTest.hasNext()) vocabToTest.next() else null)
+		mutableStateOf(if (vocabToTest?.hasNext() == true) vocabToTest?.next() else null)
+
+	fun setVocabDeck(deck: Iterator<VocabItem>) {
+		vocabToTest = deck
+		goToNextVocab()
+	}
 
 	private fun goToNextVocab() {
-		currentVocab.value = if (vocabToTest.hasNext()) vocabToTest.next() else null
+		currentVocab.value = if (vocabToTest?.hasNext() == true) vocabToTest?.next() else null
 	}
 
 	fun onAnswerWrong() {
