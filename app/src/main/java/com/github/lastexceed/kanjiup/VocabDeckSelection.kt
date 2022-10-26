@@ -49,7 +49,7 @@ fun VocabDeckSelection(
 				deckName
 			) { name: String ->
 				viewModel.setVocabDeck(
-					vocabDecks[name]?.iterator() ?: error("deck $name not found")
+					vocabDecks[name] ?: error("deck $name not found")
 				)
 				navigateToVocabLearning()
 			}

@@ -5,19 +5,23 @@ import androidx.lifecycle.ViewModel
 import java.time.Instant
 import kotlin.math.pow
 
-class VocabTestViewModel() : ViewModel() {
-	private var currentVocabDeck: Iterator<VocabItem>? = null
-	val currentVocab: MutableState<VocabItem?> =
-		mutableStateOf(if (currentVocabDeck?.hasNext() == true) currentVocabDeck?.next() else null)
+class VocabTestViewModel() :
+	ViewModel() {
+	var currentVocabDeck: List<VocabItem>? = null
 
-	fun setVocabDeck(deck: Iterator<VocabItem>) {
+	private var currentVocabDeckiterator: ListIterator<VocabItem>? = null
+	val currentVocab: MutableState<VocabItem?> =
+		mutableStateOf(if (currentVocabDeckiterator?.hasNext() == true) currentVocabDeckiterator?.next() else null)
+
+	fun setVocabDeck(deck: List<VocabItem>) {
 		currentVocabDeck = deck
+		currentVocabDeckiterator = deck.listIterator()
 		goToNextVocab()
 	}
 
 	private fun goToNextVocab() {
 		currentVocab.value =
-			if (currentVocabDeck?.hasNext() == true) currentVocabDeck?.next() else null
+			if (currentVocabDeckiterator?.hasNext() == true) currentVocabDeckiterator?.next() else null
 	}
 
 	fun onAnswerWrong() {
