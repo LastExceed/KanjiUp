@@ -3,6 +3,7 @@ package com.github.lastexceed.kanjiup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -21,16 +22,17 @@ fun GlobalNavHost() {
 		composable(Route.MainMenu.raw) {
 			MainMenu { destination -> navController.navigate(destination.raw) }
 		}
+
 		navigation(
 			startDestination = Route.VocabDeckSelection.raw,
 			route = Route.VocabLearningRoute.raw
 		) {
 			composable(Route.VocabDeckSelection.raw) { navBackStackEntry ->
-				val navigationGraphEntry = remember(navBackStackEntry) {
+				val navigationGraphEntry: NavBackStackEntry = remember(navBackStackEntry) {
 					navController.getBackStackEntry(Route.VocabLearningRoute.raw)
 				}
 				val navigationGraphScopedViewModel: VocabTestViewModel =
-					viewModel(navigationGraphEntry)
+					viewModel(viewModelStoreOwner = navigationGraphEntry)
 				VocabDeckSelection(navigationGraphScopedViewModel) { navController.navigate(Route.VocabLearning.raw) }
 			}
 			composable(Route.VocabLearning.raw) { navBackStackEntry ->
