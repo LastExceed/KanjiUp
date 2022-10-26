@@ -22,14 +22,14 @@ val vocabDecks: Map<String, List<VocabItem>> =
 			VocabItem("猫", "neko"),
 			VocabItem("兎", "usagi"),
 			VocabItem("鳥", "tori"),
-			VocabItem("虎", "tora")
+			VocabItem("虎", "tora"),
 		),
 		"fruits" to listOf(
 			VocabItem("林檎", "ringo"),
 			VocabItem("梨", "nashi"),
 			VocabItem("バナナ", "banana"),
 			VocabItem("メロン", "melon"),
-			VocabItem("葡萄", "budou")
+			VocabItem("葡萄", "budou, ")
 		)
 	)
 

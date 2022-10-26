@@ -3,27 +3,57 @@ package com.github.lastexceed.kanjiup
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import java.time.Instant
+import kotlin.math.pow
 
 class VocabTestViewModel() : ViewModel() {
-	private var vocabToTest: Iterator<VocabItem>? = null
+	private var currentVocabDeck: Iterator<VocabItem>? = null
 	val currentVocab: MutableState<VocabItem?> =
-		mutableStateOf(if (vocabToTest?.hasNext() == true) vocabToTest?.next() else null)
+		mutableStateOf(if (currentVocabDeck?.hasNext() == true) currentVocabDeck?.next() else null)
 
 	fun setVocabDeck(deck: Iterator<VocabItem>) {
-		vocabToTest = deck
+		currentVocabDeck = deck
 		goToNextVocab()
 	}
 
 	private fun goToNextVocab() {
-		currentVocab.value = if (vocabToTest?.hasNext() == true) vocabToTest?.next() else null
+		currentVocab.value =
+			if (currentVocabDeck?.hasNext() == true) currentVocabDeck?.next() else null
 	}
 
 	fun onAnswerWrong() {
+		currentVocab.value?.reviewData.apply {
+			if (this == null) return@apply
+			correctStreak = 0
+			incorrectStreak++
+			incorrectAmount++
+			reviewCount++
+
+			val now = Instant.now()
+			lastReviewAt = now
+			nextReviewAt = now
+		}
+
 		goToNextVocab()
 	}
 
 	fun onAnswerCorrect() {
-		println("correct")
+		currentVocab.value?.reviewData.apply {
+			if (this == null) return@apply
+			correctStreak++
+			correctAmount++
+			incorrectStreak = 0
+			reviewCount++
+
+			val now = Instant.now()
+			lastReviewAt = now
+			nextReviewAt = now.plusSeconds(
+				3600 * 24 * 2.0.pow(correctStreak.toDouble())
+					.toLong()
+			) //TODO make actual, also always round to nearest hour and not use full days to allow reviews to happen at the same time
+
+		}
+
+
 		goToNextVocab()
 	}
 }
