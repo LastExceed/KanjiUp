@@ -2,6 +2,8 @@ package com.github.lastexceed.kanjiup
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.lazy.layout.LazyLayout
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
@@ -14,9 +16,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+
 @Composable
 fun VocabLearning(
 	viewModel: VocabTestViewModel = viewModel()
@@ -24,7 +28,7 @@ fun VocabLearning(
 	val vocabItem = viewModel.currentVocab.value
 	println(vocabItem?.answer)
 	if (vocabItem == null) {
-		//ResultScreen
+		ResultScreen(vocabDeck = viewModel.currentVocabDeck!!)
 	} else {
 		ReviewCard(
 			vocabItem,
@@ -159,4 +163,40 @@ fun RectangleButton(
 	) {
 		content()
 	}
+}
+
+@Composable
+fun ResultScreen(
+	modifier: Modifier = Modifier,
+	vocabDeck: List<VocabItem>
+) {
+	LazyVerticalGrid(
+		columns = GridCells.Adaptive(minSize = 20.dp)
+	) {
+		items(
+			items = vocabDeck,
+			//span = { GridItemSpan(this.maxLineSpan) }
+		) { vocab ->
+			Card() {
+				Text(
+					modifier = Modifier.fillMaxWidth(),
+					text = vocab.answer,
+					textAlign = TextAlign.Center
+				)
+			}
+		}
+	}
+}
+
+@Preview
+@Composable
+fun ResultScreenPreview() {
+	ResultScreen(
+		vocabDeck = listOf(
+			VocabItem("lorem ipsum dolor1", "lorem ipsum dolor1"),
+			VocabItem("lorem ipsum dolor2", "lorem ipsum dolor1"),
+			VocabItem("lorem ipsum dolor3", "lorem ipsum dolor1"),
+			VocabItem("lorem ipsum dolor4", "lorem ipsum dolor1"),
+		)
+	)
 }
