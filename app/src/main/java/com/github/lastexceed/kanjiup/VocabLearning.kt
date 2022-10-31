@@ -1,5 +1,6 @@
 package com.github.lastexceed.kanjiup
 
+import android.webkit.WebSettings
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
@@ -15,11 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlin.random.Random
 
 @Composable
 fun VocabLearning(
@@ -171,19 +174,25 @@ fun ResultScreen(
 	vocabDeck: List<VocabItem>
 ) {
 	LazyVerticalGrid(
-		columns = GridCells.Adaptive(minSize = 20.dp)
+		columns = GridCells.Adaptive(minSize = 10.dp),
+		contentPadding = PaddingValues(10.dp),
+		horizontalArrangement = Arrangement.SpaceEvenly
 	) {
+		item(
+			span = { GridItemSpan(maxCurrentLineSpan) }
+		) {
+			VocabCard(
+				text = "Correct Items",
+			)
+		}
+
 		items(
 			items = vocabDeck,
-			//span = { GridItemSpan(this.maxLineSpan) }
-		) { vocab ->
-			Card() {
-				Text(
-					modifier = Modifier.fillMaxWidth(),
-					text = vocab.answer,
-					textAlign = TextAlign.Center
-				)
+			span = { (show) ->
+				GridItemSpan((show.length * 2) + 2)
 			}
+		) { (show) ->
+			VocabCard(text = show)
 		}
 	}
 }
@@ -191,12 +200,30 @@ fun ResultScreen(
 @Preview
 @Composable
 fun ResultScreenPreview() {
+	val random = Random(1234)
+
 	ResultScreen(
-		vocabDeck = listOf(
-			VocabItem("lorem ipsum dolor1", "lorem ipsum dolor1"),
-			VocabItem("lorem ipsum dolor2", "lorem ipsum dolor1"),
-			VocabItem("lorem ipsum dolor3", "lorem ipsum dolor1"),
-			VocabItem("lorem ipsum dolor4", "lorem ipsum dolor1"),
-		)
+		vocabDeck = (1..500).map {
+			VocabItem("柴".repeat(random.nextInt(1, 4)), "")
+		}//.sortedBy { it.show.length }
 	)
+}
+
+@Composable
+fun VocabCard(
+	text: String,
+) {
+	Card(
+		backgroundColor = MaterialTheme.colors.background,
+		modifier = Modifier.padding(5.dp)
+	) {
+		Text(
+			//modifier = Modifier.fillMaxWidth(),
+			text = text,
+			style = TextStyle(
+				fontSize = 20.sp,//MaterialTheme.typography.body2.fontSize,
+				textAlign = TextAlign.Center
+			)
+		)
+	}
 }
