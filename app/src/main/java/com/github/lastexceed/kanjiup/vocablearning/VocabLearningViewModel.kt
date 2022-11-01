@@ -11,7 +11,10 @@ class VocabTestViewModel() :
 
 	private var currentVocabDeckiterator: ListIterator<VocabItem>? = null
 	val currentVocab: MutableState<VocabItem?> =
-		mutableStateOf(if (currentVocabDeckiterator?.hasNext() == true) currentVocabDeckiterator?.next() else null)
+		mutableStateOf(
+			if (currentVocabDeckiterator?.hasNext() == true)
+				currentVocabDeckiterator?.next() else null
+		)
 
 	fun setVocabDeck(deck: List<VocabItem>) {
 		currentVocabDeck = deck
@@ -27,37 +30,16 @@ class VocabTestViewModel() :
 	fun onAnswerWrong() {
 		currentVocab.value?.reviewData.apply {
 			if (this == null) return@apply
-			correctStreak = 0
-			incorrectStreak++
-			incorrectAmount++
-			reviewCount++
-
-			val now = Instant.now()
-			lastReviewAt = now
-			nextReviewAt = now
+			this.updateReviewWrong()
 		}
-
 		goToNextVocab()
 	}
 
 	fun onAnswerCorrect() {
 		currentVocab.value?.reviewData.apply {
 			if (this == null) return@apply
-			correctStreak++
-			correctAmount++
-			incorrectStreak = 0
-			reviewCount++
-
-			val now = Instant.now()
-			lastReviewAt = now
-			nextReviewAt = now.plusSeconds(
-				3600 * 24 * 2.0.pow(correctStreak.toDouble())
-					.toLong()
-			) //TODO make actual, also always round to nearest hour and not use full days to allow reviews to happen at the same time
-
+			this.updateReviewCorrect()
 		}
-
-
 		goToNextVocab()
 	}
 }

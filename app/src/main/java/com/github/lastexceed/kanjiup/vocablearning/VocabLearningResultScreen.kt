@@ -1,4 +1,4 @@
-package com.github.lastexceed.kanjiup
+package com.github.lastexceed.kanjiup.vocablearning
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -16,6 +16,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.github.lastexceed.kanjiup.RectangleButton
+import com.github.lastexceed.kanjiup.ReviewData
+import com.github.lastexceed.kanjiup.VocabItem
 import kotlin.random.Random
 
 @Composable

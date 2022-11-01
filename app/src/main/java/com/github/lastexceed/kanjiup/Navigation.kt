@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.github.lastexceed.kanjiup.vocablearning.VocabDeckSelection
 
 //sealed class Screen(val route: String, @StringRes val resourceId: Int) {
 //	object Profile : Screen("profile", R.string.profile)
@@ -33,7 +34,9 @@ fun GlobalNavHost() {
 				}
 				val navigationGraphScopedViewModel: VocabTestViewModel =
 					viewModel(viewModelStoreOwner = navigationGraphEntry)
-				VocabDeckSelection(navigationGraphScopedViewModel) { navController.navigate(Route.VocabLearning.raw) }
+				VocabDeckSelection(navigationGraphScopedViewModel) {
+					navController.navigate(Route.VocabLearning.raw)
+				}
 			}
 			composable(Route.VocabLearning.raw) { navBackStackEntry ->
 				val navigationGraphEntry = remember(navBackStackEntry) {
