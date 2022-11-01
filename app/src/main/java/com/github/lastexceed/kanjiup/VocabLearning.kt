@@ -26,12 +26,16 @@ import kotlin.random.Random
 
 @Composable
 fun VocabLearning(
-	viewModel: VocabTestViewModel = viewModel()
+	viewModel: VocabTestViewModel = viewModel(),
+	navigateToDeckSelectionScreen: () -> Unit
 ) {
 	val vocabItem = viewModel.currentVocab.value
 	println(vocabItem?.answer)
 	if (vocabItem == null) {
-		ResultScreen(vocabDeck = viewModel.currentVocabDeck!!)
+		ResultScreen(
+			vocabDeck = viewModel.currentVocabDeck!!,
+			navigateToDeckSelectionScreen = navigateToDeckSelectionScreen,
+		)
 	} else {
 		ReviewCard(
 			vocabItem,
@@ -170,30 +174,65 @@ fun RectangleButton(
 
 @Composable
 fun ResultScreen(
+	vocabDeck: List<VocabItem>,
+	navigateToDeckSelectionScreen: () -> Unit,
+) {
+	Column(modifier = Modifier.fillMaxSize()) {
+		ResultItemList(modifier = Modifier.weight(1F), vocabDeck = vocabDeck)
+		RectangleButton(
+			//modifier = Modifier.weight(0.1F),
+			modifier = Modifier.height(75.dp),
+			onClick = navigateToDeckSelectionScreen,
+			backgroundColor = MaterialTheme.colors.primary
+		) {
+			Text(text = "Return To Menu", fontSize = MaterialTheme.typography.h4.fontSize)
+		}
+	}
+
+}
+
+@Composable
+fun ResultItemList(
 	modifier: Modifier = Modifier,
 	vocabDeck: List<VocabItem>
 ) {
 	LazyVerticalGrid(
+		modifier = modifier,
 		columns = GridCells.Adaptive(minSize = 10.dp),
 		contentPadding = PaddingValues(10.dp),
-		horizontalArrangement = Arrangement.SpaceEvenly
+		horizontalArrangement = Arrangement.SpaceEvenly,
 	) {
 		item(
 			span = { GridItemSpan(maxCurrentLineSpan) }
 		) {
 			VocabCard(
 				text = "Correct Items",
+				backgroundColor = Color(0xff93c47d)
 			)
 		}
 
 		items(
-			items = vocabDeck,
+			items = vocabDeck.filter { it.reviewData.correctStreak > 0 },
 			span = { (show) ->
 				GridItemSpan((show.length * 2) + 2)
 			}
-		) { (show) ->
-			VocabCard(text = show)
+		) { (show) -> VocabCard(text = show) }
+
+		item(
+			span = { GridItemSpan(maxLineSpan) }
+		) {
+			VocabCard(
+				text = "Wrong Items",
+				backgroundColor = Color(0xffe06666)
+			)
 		}
+
+		items(
+			items = vocabDeck.filter { it.reviewData.correctStreak == 0 },
+			span = { (show) ->
+				GridItemSpan((show.length * 2) + 2)
+			}
+		) { (show) -> VocabCard(text = show) }
 	}
 }
 
@@ -203,19 +242,25 @@ fun ResultScreenPreview() {
 	val random = Random(1234)
 
 	ResultScreen(
-		vocabDeck = (1..500).map {
-			VocabItem("柴".repeat(random.nextInt(1, 4)), "")
-		}//.sortedBy { it.show.length }
+		vocabDeck = (1..170).map {
+			VocabItem(
+				show = "柴".repeat(random.nextInt(1, 4)),
+				answer = "",
+				reviewData = ReviewData(correctStreak = random.nextInt(0, 2)),
+			)
+		},  //.sortedBy { it.show.length },
+		navigateToDeckSelectionScreen = {},
 	)
 }
 
 @Composable
 fun VocabCard(
 	text: String,
+	backgroundColor: Color = MaterialTheme.colors.background,
 ) {
 	Card(
-		backgroundColor = MaterialTheme.colors.background,
-		modifier = Modifier.padding(5.dp)
+		backgroundColor = backgroundColor,
+		modifier = Modifier.padding(5.dp),
 	) {
 		Text(
 			//modifier = Modifier.fillMaxWidth(),

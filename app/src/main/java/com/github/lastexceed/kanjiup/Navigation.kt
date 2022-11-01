@@ -41,7 +41,12 @@ fun GlobalNavHost() {
 				}
 				val navigationGraphScopedViewModel: VocabTestViewModel =
 					viewModel(navigationGraphEntry)
-				VocabLearning(navigationGraphScopedViewModel)
+				VocabLearning(navigationGraphScopedViewModel) {
+					navController.navigate(Route.VocabDeckSelection.raw) {
+						popUpTo(Route.VocabDeckSelection.raw) { inclusive = false }
+						launchSingleTop = true
+					}
+				}
 			}
 		}
 		composable(Route.Settings.raw) { Settings() }
