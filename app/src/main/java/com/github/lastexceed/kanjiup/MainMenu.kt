@@ -30,6 +30,14 @@ fun MainMenu(onButtonClicked: (Route) -> Unit) {
 		) {
 			Text("Settings")
 		}
+
+		RectangleButton(
+			onClick = { onButtonClicked(Route.Networking) },
+			modifier = Modifier.size(width = 300.dp, height = 50.dp),
+			backgroundColor = MaterialTheme.colors.primary
+		) {
+			Text("Networking Test")
+		}
 	}
 }
 

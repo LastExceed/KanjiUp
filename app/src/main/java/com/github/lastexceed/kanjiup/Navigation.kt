@@ -54,6 +54,7 @@ fun GlobalNavHost() {
 		}
 		composable(Route.Settings.raw) { Settings() }
 		//composable("settings") { Settings(navController) }
+		composable(Route.Networking.raw) { NetworkTest() }
 	}
 }
 
@@ -63,4 +64,5 @@ enum class Route(val raw: String) {
 	VocabDeckSelection("vocab_deck_selection"),
 	VocabLearning("vocab_learning"),
 	Settings("settings"),
+	Networking("networking"),
 }
